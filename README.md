@@ -16,3 +16,8 @@ project/
     ├── auth.py                 # 인증 관련 API 엔드포인트
     └── logs.py                 # 로그 관련 API 엔드포인트
 ```
+
+## 실행
+
+1. python, flask 설치 되어 있는지 확인
+2. 프로젝트 폴더에서 `python app.py` 명령어 실행
