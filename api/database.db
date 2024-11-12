@@ -1,0 +1,9 @@
+-- SQLite 명령어를 사용하여 데이터베이스와 테이블 생성
+CREATE TABLE users (
+    id TEXT PRIMARY KEY,
+    passwd TEXT
+);
+
+-- 예시 사용자 데이터 삽입
+INSERT INTO users (id, passwd) VALUES ('user1', 'password123');
+INSERT INTO users (id, passwd) VALUES ('user2', 'password456');

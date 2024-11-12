@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify , request
 import sqlite3
+import json
+from datetime import datetime
 
 auth_blueprint = Blueprint('auth', __name__)
 #sql 인젝션 공격 대상 될 수 있는 취약한 로그인 시스템 구현
@@ -32,10 +34,18 @@ def auth():
             'message': 'Invalid credentials'
         }
 
-    # 로그 결과 저장
-    cursor.execute('INSERT INTO logs (input_id, input_passwd, source_addr, result) VALUES (?, ?, ?, ?)',
-                   (user_id, user_passwd, request.remote_addr, response['result']))
-    conn.commit()
-    conn.close()
+   # 로그 데이터 콘솔에 출력
+    log_entry = {
+        'input_id': user_id,
+        'input_passwd': user_passwd,
+        'source_addr': request.remote_addr,
+        'result': response['result'],
+        'time': datetime.now().isoformat()  # 현재 시간을 ISO 형식으로 저장
+    }
+
+    # 각 로그 항목 콘솔에 출력
+    print("Log Entry:")
+    for key, value in log_entry.items():
+        print(f"{key}: {value}")
 
     return jsonify(response)
