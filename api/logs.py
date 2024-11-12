@@ -1,28 +1,24 @@
 from flask import Blueprint, jsonify
-import json
 from datetime import datetime
+from tinydb import TinyDB
 
 logs_blueprint = Blueprint('logs', __name__)
 
 @logs_blueprint.route('/', methods=['GET'])
 def logs():
-    # log.json 파일에서 데이터 읽기
-    try:
-        with open('log.json', 'r', encoding='utf-8') as file:
-            logs = json.load(file)
-    except FileNotFoundError:
-        return jsonify(error="log.json file not found"), 404
-    except json.JSONDecodeError:
-        return jsonify(error="Error decoding JSON"), 400
+    log_list = []
+
+    # TinyDB 인스턴스 생성 및 db.json 파일 로드
+    db = TinyDB('./api/db.json')
+    log_table = db.table('log')
 
     # 로그 데이터를 JSON 형식으로 변환
-    log_list = []
-    for log in logs:
+    for log in reversed(log_table.all()):
         log_entry = {
             'input_id': log.get('input_id'),
             'input_passwd': log.get('input_passwd'),
             'source_addr': log.get('source_addr'),
-            'result': log.get('result') == 'true',  # 문자열을 boolean으로 변환
+            'result': log.get('result'),
             'time': log.get('time')  # time은 문자열로 저장되어 있다고 가정
         }
 
