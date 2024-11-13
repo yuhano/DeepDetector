@@ -6,7 +6,7 @@ def create_app():
     app = Flask(__name__)
 
     # HTML 페이지 라우트
-    @app.route('/victim')
+    @app.route('/')
     def victim():
         return render_template('victim.html')
 
