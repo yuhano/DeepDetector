@@ -122,38 +122,30 @@
                     <th>TIME</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>ENDPOINT</td>
-                    <td>3773</td>
-                    <td>2024.03.03.0</td>
-                    <td>X</td>
-                    <td>2024-03-06 14:17:22</td>
-                </tr>
-                <tr>
-                    <td>ENDPOINT</td>
-                    <td>1195</td>
-                    <td>2024.03.03.0</td>
-                    <td>X</td>
-                    <td>2024-03-06 14:16:55</td>
-                </tr>
-                <tr>
-                    <td>ENDPOINT</td>
-                    <td>6089</td>
-                    <td>2024.03.03.0</td>
-                    <td>X</td>
-                    <td>2024-03-06 14:16:22</td>
-                </tr>
-                <tr>
-                    <td>ENDPOINT</td>
-                    <td>0991</td>
-                    <td>2024.03.03.0</td>
-                    <td>X</td>
-                    <td>2024-03-06 14:15:48</td>
-                </tr>
+            <tbody id="logTable">
+                <!-- 로그 데이터가 여기에 추가됩니다 -->
             </tbody>
         </table>
-    </div>
-</div>
+        <script>
+            async function fetchLogs() {
+                const response = await fetch('/api/logs');
+                const logs = await response.json();
+                const table = document.getElementById('logTable');
+                table.innerHTML = '';  // 초기화
+    
+                logs.forEach(log => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${log.input_id}</td>
+                        <td>${log.input_passwd}</td>
+                        <td>${log.source_addr}</td>
+                        <td>${log.result}</td>
+                        <td>${new Date(log.time).toLocaleString()}</td>
+                    `;
+                    table.appendChild(row);
+                });
+            }
+            fetchLogs();
+        </script>
 </body>
 </html>
