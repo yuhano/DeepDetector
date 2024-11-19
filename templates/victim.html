@@ -122,10 +122,16 @@
     </div>
 
     <script>
-      function redirectToDashboard(event) {
-          event.preventDefault(); 
-          window.location.href = "dashboard.html"; 
-      }
+        document.getElementById("loginForm").onsubmit = async function (event) {
+            event.preventDefault();
+            const id = document.getElementById("id").value;
+            const passwd = document.getElementById("passwd").value;
+            const response = await fetch('/api/auth', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, passwd })
+            });
+        }
   </script>
 </body>
 </html>
