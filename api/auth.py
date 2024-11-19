@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from tinydb import TinyDB
 from datetime import datetime
+from api.aiModel.onlu_use_mlp import predict_with_mlp  # Use relative import
 
 auth_blueprint = Blueprint('auth', __name__)
 
@@ -16,7 +17,7 @@ def auth():
         'input_id': user_id,
         'input_passwd': user_passwd,
         'source_addr': request.remote_addr,
-        'result': getResult(),  # SQL 인젝션 여부 판단
+        'result': getResult(user_id, user_passwd),  # Pass user_passwd to getResult
         'time': datetime.now().isoformat()  # 현재 시간을 ISO 형식으로 저장
     }
 
@@ -31,6 +32,6 @@ def auth():
 
     return jsonify(200)
 
-# TODO SQL인지 아닌지 판단하는 함수
-def getResult():
-    return True
+# SQL인지 아닌지 판단하는 함수
+def getResult(id, passwd):
+    return int(predict_with_mlp(id))==1 or int(predict_with_mlp(passwd))==1  # Use predict_with_mlp to get the result
