@@ -31,4 +31,4 @@ def logs():
 
         log_list.append(log_entry)
 
-    return jsonify(logs=log_list)
+    return jsonify(log_list)

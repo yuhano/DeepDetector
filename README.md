@@ -19,5 +19,5 @@ project/
 
 ## 실행
 
-1. python, flask 설치 되어 있는지 확인
+1. python, flask, tinydb, scikit-learn, joblib 설치 되어 있는지 확인
 2. 프로젝트 폴더에서 `python app.py` 명령어 실행

@@ -92,12 +92,16 @@
 </head>
 <body>
     <!-- Login Page -->
+    <div id="nav-container">
+        <a href="/">Victim</a>
+        <a href="/dashboard">Dashboard</a> 
+    </div>  
     <div class="login-container">
         <div class="login-card">
             <h1 class="login-title">VICTIM</h1>
-            <form class="login-form" onsubmit="redirectToDashboard(event)">
-                <input type="text" placeholder="Username" required>
-                <input type="password" placeholder="Password" required>
+            <form class="login-form" id="loginForm">
+                <input type="text" placeholder="Username" id="id" required>
+                <input type="password" placeholder="Password" id="passwd" required>
                 <button type="submit" class="login-btn">Sign in</button>
             </form>
         </div>
@@ -106,13 +110,27 @@
     <script>
         document.getElementById("loginForm").onsubmit = async function (event) {
             event.preventDefault();
-            const id = document.getElementById("id").value;
-            const passwd = document.getElementById("passwd").value;
-            const response = await fetch('/api/auth', {
+            const idEl = document.getElementById("id");
+            const passwdEl = document.getElementById("passwd");
+            if (!idEl || !passwdEl || !idEl.value || !passwdEl.value){
+                alert('아이디와 비밀번호를 입력해주세요');
+                return;
+            }
+
+            fetch('/api/auth', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id, passwd })
+                body: JSON.stringify({ id: idEl.value, passwd: passwdEl.value })
+            }).then(response => {
+                console.log(response);
+                alert('전송 성공');
+            }).catch(error => {
+                console.error(error);
+                alert('에러 발생');
             });
+
+            idEl.value = '';
+            passwdEl.value = '';
         }
   </script>
 </body>
