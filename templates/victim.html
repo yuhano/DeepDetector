@@ -6,6 +6,42 @@
     <title>Login</title>
     <style>
         body {
+            margin: 0;
+        }
+        #nav-container {
+            background: #fefefe;
+            color: #4b4b4b;
+            font-weight: 600;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            
+        }
+
+        #nav-container a {
+            text-decoration: none;
+            color: #4b4b4b;
+            margin: 0 1rem;  
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 0.8rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        #nav-container a:hover {
+            color: #ffffff;
+            background-color: #b8c4ff; 
+            transform: scale(1.05); 
+            font-weight: 600; 
+        }
+
+        body {
             font-family: 'Inter', sans-serif;
             background-color: #f5f3ff;
             color: #2d2d2d;
@@ -13,13 +49,14 @@
             font-size: 16px;
         }
 
-        /* Login Page Styles */
+
         .login-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+            height: calc(100vh - 58px);
+            padding: 0 1rem;
+            background: linear-gradient(135deg,#f0e4fc, #d7ebfc);
         }
 
         .login-card {
@@ -46,7 +83,7 @@
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
-            color: #6c63ff; 
+            color:  #8376ff; 
             letter-spacing: 0.5px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
@@ -74,7 +111,7 @@
         .login-btn {
             width: 100%;
             padding: 0.9rem 1.2rem;
-            background: linear-gradient(90deg, #6c63ff, #8ec5fc);
+            background: linear-gradient(90deg,#a6b8ff, #8fa6ff);
             color: #ffffff;
             font-size: 1rem;
             font-weight: 600;
@@ -88,10 +125,7 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(142, 197, 252, 0.3);
         }
-        #result-text {
-            text-align: center;
-            font-weight: 800;
-        }
+
     </style>
 </head>
 <body>
