@@ -43,13 +43,16 @@
         
         .dashboard {
             padding: 3rem 2rem;
-            background: #f5f3ff; 
+            background: linear-gradient(135deg,#f0e4fc, #d7ebfc);
+            @media screen and (max-width: 768px) {
+                padding: 0.1rem 1rem;
+            }
         }
 
         .dashboard-title {
             font-size: 2rem;
             font-weight: 700;
-            color: #4b4b4b;
+            color:  #8376ff; 
             margin-bottom: 1.5rem;
             text-align: center;
             border-bottom: 2px solid #d9dce7;
@@ -61,8 +64,13 @@
             background: #ffffff;
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
             margin-top: 2rem;
+            overflow: hidden;
+            @media screen and (max-width: 768px) {
+                overflow: scroll;
+                height: 70vh;
+                border-radius: 10px;
+            }
         }
 
         .log-table table {
@@ -75,6 +83,7 @@
             padding: 1rem 1.5rem;
             text-align: left;
             font-size: 0.95rem;
+            white-space: nowrap;
         }
 
         .log-table th {
