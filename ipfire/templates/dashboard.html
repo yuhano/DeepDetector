@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        #nav-container {
+            background: #fefefe;
+            color: #4b4b4b;
+            font-weight: 600;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            
+        }
+
+        #nav-container a {
+            text-decoration: none;
+            color: #4b4b4b;
+            margin: 0 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 0.8rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        #nav-container a:hover {
+            color: #ffffff;
+            background-color: #b8c4ff;
+            transform: scale(1.05);
+            font-weight: 600;
+        }
+        
+        .dashboard {
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg,#f0e4fc, #d7ebfc);
+            @media screen and (max-width: 768px) {
+                padding: 0.1rem 1rem;
+            }
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color:  #8376ff; 
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 2px solid #d9dce7;
+            padding-bottom: 0.5rem;
+        }
+
+        .log-table {
+            width: 100%;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            margin-top: 2rem;
+            overflow: hidden;
+            @media screen and (max-width: 768px) {
+                overflow: scroll;
+                height: 70vh;
+                border-radius: 10px;
+            }
+        }
+
+        .log-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .log-table th,
+        .log-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .log-table th {
+            background-color: #e0e7ff; 
+            color: #4b4b4b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05rem;
+        }
+
+        .log-table tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .log-table tr:nth-child(even) {
+            background-color: #f8faff;
+        }
+
+        .log-table tr:hover {
+            background-color: #e0e7ff;
+        }
+
+        .log-table td {
+            color: #4b4b4b;
+        }
+
+        .attack-log {
+            background: rgba(234, 81, 30, 0.3) !important;
+        }
+        .attack-log:hover {
+            background: rgba(234, 81, 30, 0.5) !important;
+        }
+  </style>
+</head>
+<body>
+    <div id="nav-container">
+        <a href="/">Victim</a>
+        <a href="/dashboard">Dashboard</a> 
+    </div>  
+  <div class="dashboard">
+    <h1 class="dashboard-title">LOG</h1>
+    <div class="log-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ENDPOINT</th>
+                    <th>BRCH ID</th>
+                    <th>VERSION</th>
+                    <th>RESULT</th>
+                    <th>TIME</th>
+                </tr>
+            </thead>
+            <tbody id="logTable">
+                <!-- 로그 데이터가 여기에 추가됩니다 -->
+            </tbody>
+        </table>
+        <script>
+            async function fetchLogs() {
+                const response = await fetch('/api/logs');
+                const logs = await response.json();
+                const table = document.getElementById('logTable');
+                table.innerHTML = '';  // 초기화
+    
+                logs.forEach(log => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${log.input_id}</td>
+                        <td>${log.input_passwd}</td>
+                        <td>${log.source_addr}</td>
+                        <td>${log.result}</td>
+                        <td>${new Date(log.time).toLocaleString()}</td>
+                    `;
+                    if(log.result){
+                        row.classList.add('attack-log');
+                    }
+                    table.appendChild(row);
+                });
+            }
+            fetchLogs();
+        </script>
+</body>
+</html>

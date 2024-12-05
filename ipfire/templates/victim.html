@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        #nav-container {
+            background: #fefefe;
+            color: #4b4b4b;
+            font-weight: 600;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            
+        }
+
+        #nav-container a {
+            text-decoration: none;
+            color: #4b4b4b;
+            margin: 0 1rem;  
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 0.8rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        #nav-container a:hover {
+            color: #ffffff;
+            background-color: #b8c4ff; 
+            transform: scale(1.05); 
+            font-weight: 600; 
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f3ff;
+            color: #2d2d2d;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 58px);
+            padding: 0 1rem;
+            background: linear-gradient(135deg,#f0e4fc, #d7ebfc);
+        }
+
+        .login-card {
+            background: #ffffff;
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .login-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color:  #8376ff; 
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            margin-bottom: 1rem;
+            border: 1px solid #d9dce7;
+            border-radius: 12px;
+            font-size: 1rem;
+            background-color: #f8faff; 
+            color: #3b3b3b;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .login-form input:focus {
+            border-color: #8ec5fc;
+            background-color: #ffffff;
+            box-shadow: 0 0 8px rgba(142, 197, 252, 0.4);
+            outline: none;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            background: linear-gradient(90deg,#a6b8ff, #8fa6ff);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(142, 197, 252, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="nav-container">
+        <a href="/">Victim</a>
+        <a href="/dashboard">Dashboard</a> 
+    </div>  
+    <div class="login-container">
+        <div class="login-card">
+            <h1 class="login-title">VICTIM</h1>
+            <p id="result-text"></p>
+            <form class="login-form" id="loginForm">
+                <input type="text" placeholder="Username" id="id" required>
+                <input type="password" placeholder="Password" id="passwd" required>
+                <button type="submit" class="login-btn">Sign in</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").onsubmit = async function (event) {
+            event.preventDefault();
+            const idEl = document.getElementById("id");
+            const passwdEl = document.getElementById("passwd");
+            const resultText = document.getElementById("result-text");
+            if (!idEl || !passwdEl || !idEl.value || !passwdEl.value){
+                return resultText.innerText = '아이디와 비밀번호를 입력해주세요.';
+                return;
+            }
+
+            fetch('/api/auth', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: idEl.value, passwd: passwdEl.value })
+            }).then(response => {
+                console.log(response);
+                if (response.status !== 200) {
+                    throw new Error('로그인 실패');
+                }
+                resultText.style.color = 'green';
+                resultText.innerText = '로그인 성공';
+            }).catch(error => {
+                console.error(error);
+                resultText.style.color = 'red';
+                resultText.innerText = '로그인 실패';
+            });
+
+            idEl.value = '';
+            passwdEl.value = '';
+        }
+  </script>
+</body>
+</html>
