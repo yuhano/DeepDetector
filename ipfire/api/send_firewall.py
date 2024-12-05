@@ -6,21 +6,9 @@ from concurrent.futures import ThreadPoolExecutor
 send_firewall_blueprint = Blueprint('send_firewall', __name__)
 
 @send_firewall_blueprint.route('/', methods=['POST'])
-async def send_firewall_rule(host_ip, src_addr, ruleremark):
-    loop = asyncio.get_event_loop()
-    with ThreadPoolExecutor() as executor:
-        # Run the functions in threads
-        add_future = loop.run_in_executor(executor, _send_add_firewall_rule, host_ip, src_addr, ruleremark)
-        apply_future = loop.run_in_executor(executor, _send_apply_firewall_rule, host_ip)
-        
-        # Wait for both tasks to complete
-        add_status, add_response = await add_future
-        apply_status, apply_response = await apply_future
-
-    print(f"Add Rule - Status: {add_status}, ")
-    print(f"Apply Rule - Status: {apply_status}")    
-    # print(f"Add Rule - Status: {add_status}, Response: {add_response}")
-    # print(f"Apply Rule - Status: {apply_status}, Response: {apply_response}")
+def send_firewall(host_ip, src_addr, ruleremark):
+    _send_add_firewall_rule(host_ip, src_addr, ruleremark)
+    _send_apply_firewall_rule(host_ip)
 
 
 def _send_add_firewall_rule(host_ip, src_addr, ruleremark):
@@ -75,4 +63,4 @@ if __name__ == "__main__":
     print(f"Status Code: {status_code}")
     # print(f"Response Text: {response_text}")
 
-    asyncio.run(send_firewall_rule(host, src_addr, ruleremark))
+    # asyncio.run(send_firewall_rule(host, src_addr, ruleremark))

@@ -5,7 +5,7 @@ api_bp = Blueprint('api', __name__)
 
 # 엔드포인트 등록
 from .logs import logs_blueprint
-from .send_firewall import send_firewall_rule
+from .send_firewall import send_firewall_blueprint
 
 api_bp.register_blueprint(logs_blueprint, url_prefix='/logs')
-api_bp.register_blueprint(send_firewall_rule, url_prefix='/send_firewall')
+api_bp.register_blueprint(send_firewall_blueprint, url_prefix='/send_firewall')
