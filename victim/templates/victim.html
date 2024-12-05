@@ -131,7 +131,7 @@
 <body>
     <!-- Login Page -->
     <div id="nav-container">
-        <a href="/">Victim</a>
+        <a href="/">Login</a>
         <a href="/dashboard">Dashboard</a> 
     </div>  
     <div class="login-container">
@@ -152,30 +152,40 @@
             const idEl = document.getElementById("id");
             const passwdEl = document.getElementById("passwd");
             const resultText = document.getElementById("result-text");
+            
+            // 초기화
+            resultText.style.opacity = 0;
+            resultText.style.color = '';
+
             if (!idEl || !passwdEl || !idEl.value || !passwdEl.value){
-                return resultText.innerText = '아이디와 비밀번호를 입력해주세요.';
+                resultText.style.color = 'red';
+                resultText.innerText = 'Please enter your ID and password.';
+                resultText.style.opacity = 1;
                 return;
             }
 
-            fetch('/api/auth', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: idEl.value, passwd: passwdEl.value })
-            }).then(response => {
-                console.log(response);
-                if (response.status !== 200) {
-                    throw new Error('로그인 실패');
+            try {
+                const response = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: idEl.value, passwd: passwdEl.value })
+                });
+
+                if (response.ok) {
+                    resultText.style.color = 'green';
+                    resultText.innerText = 'Login successful';
+                } else {
+                    throw new Error('Unexpected error');
                 }
-                resultText.style.color = 'green';
-                resultText.innerText = '로그인 성공';
-            }).catch(error => {
+            } catch (error) {
                 console.error(error);
                 resultText.style.color = 'red';
-                resultText.innerText = '로그인 실패';
-            });
-
-            idEl.value = '';
-            passwdEl.value = '';
+                resultText.innerText = 'Server error. Please try again.';
+            } finally {
+                resultText.style.opacity = 1;
+                idEl.value = '';
+                passwdEl.value = '';
+            }
         }
   </script>
 </body>

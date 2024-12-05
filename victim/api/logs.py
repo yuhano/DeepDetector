@@ -18,7 +18,6 @@ def logs():
             'input_id': log.get('input_id'),
             'input_passwd': log.get('input_passwd'),
             'source_addr': log.get('source_addr'),
-            'result': log.get('result'),
             'time': log.get('time')  # time은 문자열로 저장되어 있다고 가정
         }
 

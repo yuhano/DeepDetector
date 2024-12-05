@@ -120,19 +120,19 @@
 </head>
 <body>
     <div id="nav-container">
-        <a href="/">Victim</a>
+        <a href="/">Login</a>
         <a href="/dashboard">Dashboard</a> 
     </div>  
   <div class="dashboard">
-    <h1 class="dashboard-title">LOG</h1>
+    <h1 class="dashboard-title">SERVER LOG</h1>
     <div class="log-table">
         <table>
             <thead>
                 <tr>
-                    <th>ENDPOINT</th>
-                    <th>BRCH ID</th>
-                    <th>VERSION</th>
-                    <th>RESULT</th>
+                    <th>LOGIN ID</th>
+                    <th>PASSWORD</th>
+                    <th>CONNECT ADDRESS</th>
+                    <!-- <th>RESULT</th> -->
                     <th>TIME</th>
                 </tr>
             </thead>
@@ -153,7 +153,6 @@
                         <td>${log.input_id}</td>
                         <td>${log.input_passwd}</td>
                         <td>${log.source_addr}</td>
-                        <td>${log.result}</td>
                         <td>${new Date(log.time).toLocaleString()}</td>
                     `;
                     if(log.result){
