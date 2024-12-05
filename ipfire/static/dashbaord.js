@@ -20,14 +20,26 @@ function createContextMenu() {
     document.body.appendChild(contextMenu);
 
     const menuItems = [
-        { label: 'Add Firewall', action: () => alert('Viewing details...') },
+        {
+            label: 'Add To Firewall',
+            action: (row) => {
+                const cells = Array.from(row.children);
+                alert(cells[2].textContent)
+
+            }
+        },
     ];
 
     menuItems.forEach(item => {
         const menuItem = document.createElement('div');
         menuItem.textContent = item.label;
+        menuItem.style.padding = '5px 10px';
+        menuItem.style.cursor = 'pointer';
+        menuItem.style.borderBottom = '1px solid #f0f0f0';
         menuItem.addEventListener('click', () => {
-            item.action();
+            if (contextMenu.targetRow) {
+                item.action(contextMenu.targetRow); // Pass the row to the action
+            }
             hideContextMenu(contextMenu);
         });
         contextMenu.appendChild(menuItem);
@@ -48,15 +60,20 @@ function hideContextMenu(contextMenu) {
  */
 function initializeContextMenu(contextMenu, table) {
     table.addEventListener('contextmenu', event => {
-        event.preventDefault();
-        const row = event.target.closest('tr');
+        event.preventDefault(); // 기본 우클릭 메뉴 방지
+
+        const row = event.target.closest('tr'); // 클릭한 셀의 부모 행
         if (row) {
-            contextMenu.style.top = `${event.clientY}px`;
-            contextMenu.style.left = `${event.clientX}px`;
+            contextMenu.targetRow = row; // 현재 행을 contextMenu에 저장
+
+            // 마우스 위치에 따라 메뉴 위치 설정 (스크롤 고려)
+            contextMenu.style.top = `${event.pageY}px`;
+            contextMenu.style.left = `${event.pageX}px`;
             contextMenu.style.display = 'block';
         }
     });
 
+    // 메뉴 외부를 클릭했을 때 메뉴 숨기기
     document.addEventListener('click', () => hideContextMenu(contextMenu));
 }
 
