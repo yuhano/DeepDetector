@@ -5,83 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
-
-        /* Dashboard Page Styles */
-        .dashboard {
-            padding: 2rem;
-        }
-
-        .dashboard-title {
-            margin-bottom: 2rem;
-            color: #333;
-        }
-
-        .log-table {
-            width: 100%;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .log-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .log-table th,
-        .log-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        .log-table th {
-            background-color: #f8f8f8;
-            font-weight: bold;
-            color: #666;
-        }
-
-        .log-table tr {
-            border-bottom: #666 solid 1px;
-        }
-
-        .attack-log {
-            background: rgba(234, 81, 30, 0.3);
-        }
-
-        #contextMenu {
-            position: absolute;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            z-index: 1000;
-            display: none;
-        }
-
-        #contextMenu div:hover {
-            background-color: #f0f0f0;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashbaord.css') }}">
 </head>
 
 <body>
-    <div id="nav-container">
-        <!-- <a href="/">Victim</a>
-        <a href="/dashboard">Dashboard</a>  -->
-    </div>
+    <div id="nav-container"></div>
     <div class="dashboard">
         <h1 class="dashboard-title">IPFIRE LOG</h1>
         <div class="log-table">
@@ -95,78 +23,11 @@
                         <th>TIME</th>
                     </tr>
                 </thead>
-                <tbody id="logTable">
-                    <!-- 로그 데이터가 여기에 추가됩니다 -->
-                </tbody>
+                <tbody id="logTable"></tbody>
             </table>
-            <script>
-                // 우클릭 메뉴 
-                document.addEventListener('DOMContentLoaded', () => {
-                    const table = document.getElementById('logTable');
-                    const contextMenu = document.createElement('div');
-                    contextMenu.id = 'contextMenu';
-                    document.body.appendChild(contextMenu);
-
-                    const menuItems = [
-                        { label: 'Add Firewall', action: () => alert('Viewing details...') },
-                    ];
-
-                    menuItems.forEach(item => {
-                        const menuItem = document.createElement('div');
-                        menuItem.textContent = item.label;
-                        menuItem.style.padding = '5px 10px';
-                        menuItem.style.cursor = 'pointer';
-                        menuItem.style.borderBottom = '1px solid #f0f0f0';
-                        menuItem.addEventListener('click', () => {
-                            item.action();
-                            contextMenu.style.display = 'none';
-                        });
-                        contextMenu.appendChild(menuItem);
-                    });
-
-                    table.addEventListener('contextmenu', event => {
-                        event.preventDefault();
-                        const row = event.target.closest('tr');
-                        if (row) {
-                            contextMenu.style.top = `${event.clientY}px`;
-                            contextMenu.style.left = `${event.clientX}px`;
-                            contextMenu.style.display = 'block';
-                        }
-                    });
-
-                    document.addEventListener('click', () => {
-                        contextMenu.style.display = 'none';
-                    });
-                });
-
-                // LOG 화면 표시 
-                async function fetchLogs() {
-                    const response = await fetch('/api/logs');
-                    const logs = await response.json();
-                    const table = document.getElementById('logTable');
-                    table.innerHTML = '';  // 초기화
-
-                    logs.forEach(log => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                        <td>${log.input_id}</td>
-                        <td>${log.input_passwd}</td>
-                        <td>${log.source_addr}</td>
-                        <td>${log.result}</td>
-                        <td>${new Date(log.time).toLocaleString()}</td>
-                    `;
-                        if (log.result) {
-                            row.classList.add('attack-log');
-                        }
-                        table.appendChild(row);
-                    });
-                }
-                
-                // 5초마다 로그 데이터 새로고침
-                setInterval(fetchLogs, 5000);
-                // 초기 데이터 로드
-                fetchLogs();
-            </script>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='dashbaord.js') }}"></script>
 </body>
 
 </html>
