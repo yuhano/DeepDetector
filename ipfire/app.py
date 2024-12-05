@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from api.logs import logs_blueprint
-from api.send_firewall import send_firewall_rule
+from api.send_firewall import send_firewall_blueprint
 import threading
 from api.network_capture import start_packet_sniffing
 
@@ -14,7 +14,7 @@ def create_app():
 
     # API 블루프린트 등록
     app.register_blueprint(logs_blueprint, url_prefix='/api/logs')
-    app.register_blueprint(send_firewall_rule, url_prefix='/api/send_firewall')
+    app.register_blueprint(send_firewall_blueprint, url_prefix='/api/send_firewall')
 
     return app
 
