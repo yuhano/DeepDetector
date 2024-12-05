@@ -15,11 +15,15 @@ def logs():
     # 로그 데이터를 JSON 형식으로 변환
     for log in reversed(log_table.all()):
         log_entry = {
-            'input_id': log.get('input_id'),
-            'input_passwd': log.get('input_passwd'),
-            'source_addr': log.get('source_addr'),
-            'result': log.get('result'),
-            'time': log.get('time')  # time은 문자열로 저장되어 있다고 가정
+            "no": log.get('no'),                        # 패킷이 기록된 순서를 나타내는 번호
+            "input_id": log.get('input_id'),            # HTTP 패킷에서 추출한 ID
+            "input_passwd": log.get('input_passwd'),    # HTTP 패킷에서 추출한 PW
+            "source_addr": log.get('source_addr'),
+            "result": log.get('result'),                # RESULT는 FALSE 또는 TRUE로 설정
+            "protocol": log.get('protocol'),            # PROTOCOL에 프로토콜 이름을 저장
+            "src_port": log.get('src_port'),
+            "dst_port": log.get('dst_port'),
+            "time": log.get('time')
         }
 
         # time이 datetime 객체인 경우 ISO 8601 형식으로 변환
