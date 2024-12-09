@@ -4,6 +4,7 @@ from api.aiModel.onlu_use_mlp import predict_with_mlp
 import json
 
 captured_packets = []
+no = 0  # no 변수 초기화
 
 # 패킷을 캡처하는 함수
 def packet_callback(packet):

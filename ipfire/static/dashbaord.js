@@ -18,7 +18,7 @@ function createContextMenu() {
     const contextMenu = document.createElement('div');
     contextMenu.id = 'contextMenu';
     document.body.appendChild(contextMenu);
-    alert(cells[2].textContent);
+    // alert(cells[2].textContent);
 
     const menuItems = [
         {
