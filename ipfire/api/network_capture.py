@@ -1,6 +1,7 @@
 from scapy.all import sniff, IP, TCP, Raw
 from datetime import datetime
 from api.aiModel.onlu_use_mlp import predict_with_mlp
+from api.logs import add_log
 import json
 
 captured_packets = []
@@ -53,8 +54,10 @@ def packet_callback(packet):
             "time": datetime.fromtimestamp(packet.time).strftime('%Y-%m-%d %H:%M:%S')
         }
 
-        if result == "TRUE":
-            captured_packets.insert(0, log_entry)  # 새로운 패킷을 리스트의 맨 위에 추가
+        # if result == "TRUE":
+        #     captured_packets.insert(0, log_entry)  # 새로운 패킷을 리스트의 맨 위에 추가
+
+        add_log(log_entry)
         
         if len(captured_packets) > 50:  # 메모리 관리를 위해 최대 50개까지만 저장
             captured_packets.pop()

@@ -36,3 +36,13 @@ def logs():
         log_list.append(log_entry)
 
     return jsonify(log_list)
+
+
+def add_log(log_entry):
+    try:
+        db = TinyDB('./api/db.json')
+        log_table = db.table('log')
+        log_table.insert(log_entry)  # 로그 데이터를 TinyDB에 저장
+    except Exception as e:
+        print(f'Error: {e}')
+        return
